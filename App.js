@@ -12,9 +12,6 @@ app.use(express.json()); //
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-mongoose.connect('mongodb+srv://root:root@cluster0.vm7l1.mongodb.net/proyectosAdmin').then(() => {
-  console.log("Conectado a DB este es index.js");
-});
 
 app.use("/api/proyectos", proyectosRoutes);
 app.use("/api/usuarios", usuariosRoutes);
