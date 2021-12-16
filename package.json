@@ -1,0 +1,35 @@
+{
+  "name": "misiontic-ciclo-4",
+  "version": "1.0.0",
+  "description": "Administración de proyectos de investigación",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loperapablo/MisionTIC-ciclo-4.git"
+  },
+  "keywords": [
+    "mongoDB",
+    "GraphQL",
+    "NodeJS"
+  ],
+  "author": "Pablo Lopera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/loperapablo/MisionTIC-ciclo-4/issues"
+  },
+  "homepage": "https://github.com/loperapablo/MisionTIC-ciclo-4#readme",
+  "dependencies": {
+    "@babel/preset-env": "^7.16.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.12",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
