@@ -13,7 +13,13 @@ const typeDefs = `
         Avances(project: String): [Avance]
         filtrarAvance(_id: String!): [Avance]
         Inscripciones: [Inscripcion]
+        filtrarProyectosEstudiante(_id: String!): [Inscripcion] 
+        filtrarProyectosLider(_id: String!): [Inscripcion] 
+        filtrarInscripcionesProyecto(_id: String!): [Inscripcion] 
+
     }
+
+    
 
     type Objetivo {
     _id: ID!
@@ -88,6 +94,7 @@ const typeDefs = `
         crearAvance(fecha: Date, descripcion: String!, proyecto: String!, creadoPor: String!): Avance
         crearInscripcion(proyecto: String!, estudiante: String!): Inscripcion
         aprobarInscripcion(id: String!): Inscripcion
+        agregarObservacionAvance(_id: ID, input: ObservacionAvance): Avance
 
     crearProyecto(
       nombre: String!
@@ -103,7 +110,9 @@ const typeDefs = `
     eliminarObjetivo(idProyecto: String!, idObjetivo: String!): Proyecto
     }
 
-
+    input ObservacionAvance {
+      descripcion: String!
+    }
 
     input UserInput {
         correo: String!

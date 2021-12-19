@@ -37,10 +37,10 @@ export const resolvers = {
         },
     },
   Query: {  
-      Inscripciones: async (parent, args) => {
-      const inscripciones = await InscriptionModel.find();
-      return inscripciones;
-    },
+          Inscripciones: async (parent, args) => {
+          const inscripciones = await InscriptionModel.find();
+          return inscripciones;
+        },
            
         async Users() {
             const users = await User.find()
@@ -59,8 +59,10 @@ export const resolvers = {
             .populate('proyecto')
             .populate('creadoPor');
         return avanceFiltrado;
-        },
-        Proyectos: async (parent, args, context) => {
+    },
+        
+    Proyectos: async (parent, args, context) => {
+          console.log(args)
       if (context.userData) {
         if (context.userData.rol === 'LIDER') {
           const proyectos = await ProjectModel.find({ lider: context.userData._id });
@@ -73,8 +75,89 @@ export const resolvers = {
       const proyectos = await ProjectModel.find();
       return proyectos;
     },
+
+
+    filtrarProyectosEstudiante: async (parent, args, context) => {
+        // console.log(args._id)
+      const inscripciones = await InscriptionModel.find().populate('proyecto')
+      // if (args._id == inscripciones.estudiante._id) {
+      // }
+      var estudiantesInscritos = []
+      const inscritos = inscripciones.map((inscrito) => {
+        args._id == inscrito.estudiante.toString() && estudiantesInscritos.push(inscrito);        
+      })      
+      let hash = {};
+      estudiantesInscritos = estudiantesInscritos.filter(o => hash[o.proyecto._id] ? false : hash[o.proyecto._id] = true);
+      
+      return estudiantesInscritos
+      // console.log(inscripciones)        
+        // return inscripciones;
     },
-  Mutation: {   
+
+
+    
+    filtrarProyectosLider: async (parent, args, context) => {
+        // console.log(args._id)
+      const inscripciones = await InscriptionModel.find().populate('proyecto')
+      // if (args._id == inscripciones.estudiante._id) {
+      // }
+      var lideresInscritos = []
+      const inscritos = inscripciones.map((inscrito) => {
+        args._id == inscrito.proyecto.lider.toString() && lideresInscritos.push(inscrito);        
+      })   
+      let hash = {};
+      lideresInscritos = lideresInscritos.filter(o => hash[o.proyecto._id] ? false : hash[o.proyecto._id] = true);
+      
+      return lideresInscritos
+      // console.log(inscripciones)        
+        // return inscripciones;
+    },
+    filtrarInscripcionesProyecto: async (parent, args, context) => {
+        
+      const inscripciones = await InscriptionModel.find().populate('proyecto')
+      // if (args._id == inscripciones.estudiante._id) {
+      // }
+      var estudiantesInscritos = []
+      const inscritos = inscripciones.map((inscrito) => {
+        args._id == inscrito.proyecto._id.toString() && estudiantesInscritos.push(inscrito);        
+      })      
+      // let hash = {};
+      // estudiantesInscritos = estudiantesInscritos.filter(o => hash[o.proyecto._id] ? false : hash[o.proyecto._id] = true);
+      
+      return estudiantesInscritos
+      // console.log(inscripciones)        
+        // return inscripciones;
+    },
+
+
+  },
+
+
+
+
+
+
+
+
+
+  Mutation: {  
+
+    agregarObservacionAvance: async (parent, args) => {
+      var desc = args.input.descripcion
+      console.log(desc)
+      const AvanceConObservacion = await ModeloAvance.findByIdAndUpdate(
+        args._id,
+        {
+          $addToSet: {
+            observaciones: [desc]        
+               
+          },
+        },
+        { new: true }
+      );
+      console.log(AvanceConObservacion)
+      return AvanceConObservacion;
+    },
       crearInscripcion: async (parent, args) => {
       const inscripcionCreada = await InscriptionModel.create({
         estado: args.estado,
@@ -228,5 +311,13 @@ export const resolvers = {
 //     firstname
 //     lastname
 //     age
+//   }
+// }
+
+
+// {
+// 	filtrarProyectosEstudiante(_id: "61be15705feb54ef8967adfc"){
+//     nombre
+//     _id
 //   }
 // }
